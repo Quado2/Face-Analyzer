@@ -179,11 +179,17 @@ class App extends Component {
      this.setState({invalid: true});
      return
    }
+  //  if(document.querySelector('#spinner')){
+  //    document.querySelector('#spinner').scrollIntoView({
+  //      behavior: 'smooth'
+  //    })
+  //  }
     window.scroll({
     top: 500,
     left: 0,
     behavior: 'smooth'
   })
+
    this.processImage(this.state.input);
   }
 
@@ -205,8 +211,13 @@ class App extends Component {
   formData = new FormData();
    
   fileChangeHandler = (event) =>{
-  
     this.setState({uploadState:'Uploading Image', loading: true})
+    
+    // if(document.querySelector('#spinner')){
+    //   document.querySelector('#spinner').scrollIntoView({
+    //     behavior: 'smooth'
+    //   })
+   // }
     window.scroll({
       top: 500,
       left: 0,

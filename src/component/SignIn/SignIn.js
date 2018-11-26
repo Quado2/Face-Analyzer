@@ -1,4 +1,7 @@
 import React from 'react';
+import {RingLoader} from 'react-spinners';
+import {css} from 'react-emotion';
+
 
 class SignIn extends React.Component {
  	
@@ -6,10 +9,17 @@ class SignIn extends React.Component {
  		super(props);
  		this.state = {
  			signInEmail: '',
- 			signInPassword: ''
+			 signInPassword: '',
+			 error: false,
+			 errorMessage: '',
+			 loading: false
  		}
  	}
-
+	  override = css`
+	 display: inline;
+		 margin: 0 30px;
+		 border-color: red;
+	 `
  	onEmailChange = (event) => {
  		this.setState({ signInEmail: event.target.value});
  	}
@@ -19,6 +29,11 @@ class SignIn extends React.Component {
  	}
 
  	onSubmitSignin = () => {
+		 this.setState({loading:true,errorMessage:''})
+		 if(this.state.signInPassword.length < 1 || this.state.signInEmail.length<1){
+			this.setState({error:true,loading:false});
+			return;
+		 }
  		fetch('https://smart-brain-001.herokuapp.com/signin',{
  			method: 'post',
  			headers: {'Content-Type': 'application/json'},
@@ -29,11 +44,15 @@ class SignIn extends React.Component {
  		})
  		.then(response => response.json())
  		.then(user => {
+			 console.log(user);
  			if(user.id){
+			this.setState({error: false,errorMessage:'',loading:false})
  			this.props.loadUser(user);
  			this.props.onRouteChange('home');
- 			}
- 		})
+ 			} else{
+				 this.setState({error:true, errorMessage:user, loading:false})
+			 }
+		 })
  	}
 
 	render(){
@@ -62,7 +81,21 @@ class SignIn extends React.Component {
 			        type="password" 
 			        name="password"  
 			        id="password" />
-							<label>invalid credentials</label>
+							{this.state.error? <label style={{color:'red'}}>invalid credentials</label>  : null}
+							{this.state.loading? 
+							<div className='sweeet-loading' >
+								{'checking...'}
+								<RingLoader 
+									className={this.override}
+									sizeUnit={'px'}
+									size={50}
+									color={'gold'}
+									loading={this.state.loading}
+									/>
+							</div>
+							:null
+						}
+							
 			      </div>
 			    </fieldset>
 			    <div className="">
