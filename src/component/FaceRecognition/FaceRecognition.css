@@ -20,7 +20,7 @@
     width: 500px;
     margin: 20px auto;
     box-shadow: 5px 5px 3px rgba(6, 69, 105,0.7);
-    color: rgb(153, 196, 67)
+    background-color: rgba(152, 195, 224,0.5)
 }
 
 .table table {

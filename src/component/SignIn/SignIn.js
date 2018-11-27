@@ -44,7 +44,6 @@ class SignIn extends React.Component {
  		})
  		.then(response => response.json())
  		.then(user => {
-			 console.log(user);
  			if(user.id){
 			this.setState({error: false,errorMessage:'',loading:false})
  			this.props.loadUser(user);

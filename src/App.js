@@ -124,7 +124,6 @@ class App extends Component {
   }
 
   displayFaceBox = (faces) => {
-    console.log(faces);
     this.setState({faces: faces, loading: false, uploadState:'', loaded: true});
   }
 
@@ -144,7 +143,6 @@ class App extends Component {
     .then(response => response.json())
     .then(data => {
       if(data !== 'api error'){
-        console.log(this.state.user.id)
         fetch('https://smart-brain-001.herokuapp.com/image',{
           method: 'put',
           headers: {'Content-Type': 'application/json'},
@@ -156,7 +154,7 @@ class App extends Component {
         .then(count => {
           this.setState(Object.assign(this.state.user, {entries: count}))
         })
-        .catch(console.log)
+        .catch()
       }
       this.displayFaceBox(this.processFace(data));
       document.querySelector('#table').scrollIntoView({
@@ -206,12 +204,14 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if(route === 'home'){
-      this.setState({ isSignedIn: true})
+      this.setState({ isSignedIn: true,route:'home'})
     } else if (route === 'signout'){
       this.setState(initialState);
-      this.setState({route:'signin'});
+      this.setState({isSignedIn:false})
+    } else{
+      this.setState({route: route});
     }
-    this.setState({route: route});
+    
   }
 
   CLOUDINARY_URL='	https://api.cloudinary.com/v1_1/quados/upload'
@@ -219,15 +219,16 @@ class App extends Component {
   formData = new FormData();
    
   fileChangeHandler = (event) =>{
+    event.persist();
     this.setState({uploadState:'Uploading Image', loading: true})
     
-    setTimeout(function(){
+    setTimeout(() => {
       if(document.querySelector('#spinner')){
         document.querySelector('#spinner').scrollIntoView({
         behavior: 'smooth'
       })
       } 
-
+      
       this.formData.append('file', event.target.files[0]);
     this.formData.append('upload_preset', this.CLOUDINARY_UPLOAD_PRESET);
 
@@ -249,7 +250,6 @@ class App extends Component {
       },
       data: this.formData
     }).then(res =>{
-      console.log(res);
       this.setState({imageUrl:res.data.secure_url,error:false});
       this.processImage(res.data.secure_url);
     }).catch(err => {

@@ -3,7 +3,6 @@ import './FaceRecognition.css'
 
 const FaceRecognition = ({imageUrl, faces, loaded}) => {
 	let color = ['red', 'yellow', 'blue', 'black', 'cyan','purple','deeppink','orangered','rgb(153, 196, 67)']
-	console.log("no of faces: "+faces.length)
 return(
 	<div className =''> 
 	  <div className = 'face_image'>
