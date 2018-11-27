@@ -179,18 +179,25 @@ class App extends Component {
      this.setState({invalid: true});
      return
    }
-  //  if(document.querySelector('#spinner')){
-  //    document.querySelector('#spinner').scrollIntoView({
-  //      behavior: 'smooth'
-  //    })
-  //  }
-    window.scroll({
-    top: 500,
-    left: 0,
-    behavior: 'smooth'
-  })
+   
+   setTimeout(function(){
+    if(document.querySelector('#spinner')){
+      document.querySelector('#spinner').scrollIntoView({
+      behavior: 'smooth'
+    })
+    } 
+     this.processImage(this.state.input);
+  }, 1000)
+  //I'm using a delay here because setState takes time to implement due
+  //to its asynchronous nature, 
+  
+  //   window.scroll({
+  //   top: 500,
+  //   left: 0,
+  //   behavior: 'smooth'
+  // })
 
-   this.processImage(this.state.input);
+  
   }
 
   menuClicked = () =>{
@@ -201,7 +208,8 @@ class App extends Component {
     if(route === 'home'){
       this.setState({ isSignedIn: true})
     } else if (route === 'signout'){
-      this.setState(initialState)
+      this.setState(initialState);
+      this.setState({route:'signin'});
     }
     this.setState({route: route});
   }
@@ -213,19 +221,14 @@ class App extends Component {
   fileChangeHandler = (event) =>{
     this.setState({uploadState:'Uploading Image', loading: true})
     
-    // if(document.querySelector('#spinner')){
-    //   document.querySelector('#spinner').scrollIntoView({
-    //     behavior: 'smooth'
-    //   })
-   // }
-    window.scroll({
-      top: 500,
-      left: 0,
-      behavior: 'smooth'
-    })
-   
-    
-    this.formData.append('file', event.target.files[0]);
+    setTimeout(function(){
+      if(document.querySelector('#spinner')){
+        document.querySelector('#spinner').scrollIntoView({
+        behavior: 'smooth'
+      })
+      } 
+
+      this.formData.append('file', event.target.files[0]);
     this.formData.append('upload_preset', this.CLOUDINARY_UPLOAD_PRESET);
 
     // fetch('http://localhost:3000/uploadImage',{
@@ -252,6 +255,13 @@ class App extends Component {
     }).catch(err => {
       this.setState({error: true, errorMessage: err})
     })
+    }, 1000)
+
+    // window.scroll({
+    //   top: 500,
+    //   left: 0,
+    //   behavior: 'smooth'
+    // })
     
   }
 
@@ -267,7 +277,7 @@ class App extends Component {
               params={particlesOptions}
             />
         <Header show ={this.state.show} menuClicked={this.menuClicked} onRouteChange = {this.onRouteChange} isSignedIn = {isSignedIn}/>
-        <Slider menuClicked={this.menuClicked} loadUser = {this.loadUser} onRouteChange = {this.onRouteChange} show={this.state.show} />
+        <Slider menuClicked={this.menuClicked} loadUser = {this.loadUser} isSignedIn = {isSignedIn} onRouteChange = {this.onRouteChange} show={this.state.show} />
         <Backdrop menuClicked={this.menuClicked} show={this.state.show}/>
          {
            this.state.error? <ErrorMessage handleError={this.handleError} errorMessage={this.state.errorMessage} /> : null

@@ -7,7 +7,7 @@
     top: 0;
     left: 0;
     transform: translate(-210px,-210px);
-    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition: all 0.7s ease-out;
 }
 
 .show{
