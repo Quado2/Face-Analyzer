@@ -214,8 +214,8 @@ class App extends Component {
     
   }
 
-  CLOUDINARY_URL='	https://api.cloudinary.com/v1_1/quados/upload'
-  CLOUDINARY_UPLOAD_PRESET='bqe5bhg6'
+  CLOUDINARY_URL='	https://api.cloudinary.com/v1_1/yourUsername/upload'
+  CLOUDINARY_UPLOAD_PRESET='user_your_preset'
   formData = new FormData();
    
   fileChangeHandler = (event) =>{
